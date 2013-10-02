@@ -1,0 +1,2 @@
+ALTER TABLE `users` CHANGE `login` `username` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL ;
+ALTER TABLE `users` CHANGE `password` `password` VARCHAR( 50 ) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL ;
