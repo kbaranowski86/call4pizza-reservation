@@ -71,7 +71,7 @@ class DATABASE_CONFIG {
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => 'root',
-		'password' => 'root',
+		'password' => 'null',
 		'database' => 'call4pizza-reservation',
 		'prefix' => '',
 
