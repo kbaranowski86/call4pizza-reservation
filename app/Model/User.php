@@ -1,5 +1,6 @@
 <?php
 class User extends AppModel {
+	public $displayField = 'username';
     public $hasMany = 'Order';
     
     public function beforeSave($options = array()) {

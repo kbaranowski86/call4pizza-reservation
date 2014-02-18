@@ -1,10 +1,12 @@
 <?php
 class Order extends AppModel {
     public $hasAndBelongsToMany = array(
-        'OrderMeals' =>
+        'Meal' =>
             array(
                 'className' => 'Meal',
-                'joinTable' => 'meals_orders'
+                'joinTable' => 'meals_orders',
+                'foreignKey' => 'order_id',
+                'associationForeignKey' => 'meal_id'
             )
     );
     
