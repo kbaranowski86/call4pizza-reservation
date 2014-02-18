@@ -2,7 +2,7 @@
 class Meal extends AppModel
 {
     public $hasAndBelongsToMany = array(
-        'MemberOfOrder' =>
+        'Order' =>
             array(
                 'className' => 'Order'
             )
