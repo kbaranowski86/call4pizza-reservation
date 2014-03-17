@@ -17,3 +17,19 @@ meals {
 
 co oznacza, i¿ do zamówienia dodano potrawê o id=5 ze sk³adnikami o id=3 w iloœci 2 i o id=2 w iloœci 2 oraz potrawê o id=3 ze sk³adnikiem o id=2 w iloœci 2. 
 Dodawanie/usuwanie potraw/sk³adników odbywa siê z wykorzystaniem dedykowanych operacji w kontrolerze order.
+
+Struktura zamówienia:
+
+order {
+  meal_1 {
+    { ingredient_1, amount },
+    { ingredient_2, amount },
+    ...
+  },
+  meal_2
+    { ingredient_1, amount },
+    { ingredient_2, amount },
+    ...
+  },
+  ...
+}
