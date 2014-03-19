@@ -47,27 +47,58 @@ class OrdersController extends AppController {
     
     public function selectIngredients()
     {
+    	$order = $this->Session->read('order');
+    	$this->set( 'order', $order );
+    }
+    
+    public function ingredientAmountIncrease( $mealId = null, $ingredientId = null )
+    {
+    	if( $mealId == null || $ingredientId == null )
+    	{
+    		return $this->redirect(array('action' => 'selectIngredients'));
+		}
+		else
+		{
+	    	$order = $this->Session->read('order');
+	    	$order[ $mealId ][ $ingredientId ] += 1;
+	    	$this->Session->write('order', $order);
+	    	return $this->redirect(array('action' => 'selectIngredients'));
+		}
+    }
+    
+    public function ingredientAmountDecrease( $mealId, $ingredientId )
+    {
+    	$order = $this->Session->read('order');
+    	if( $mealId == null || $ingredientId == null || $order[ $mealId ][ $ingredientId ] == 0 )
+    	{
+    		return $this->redirect(array('action' => 'selectIngredients'));
+		}
+		else
+		{
+			if( $order[ $mealId ][ $ingredientId ] == 1 )
+			{
+				unset( $order[ $mealId ][ $ingredientId ] );
+			}
+			else
+			{
+		    	$order[ $mealId ][ $ingredientId ] -= 1;	
+		    }
+		    $this->Session->write('order', $order);
+	    	return $this->redirect(array('action' => 'selectIngredients'));
+		}		
+    }
+    
+    public function ingredientAdd( $mealId, $ingredientId )
+    {
     	
     }
     
-    public function ingredientAmountIncrease( $ingredientId )
+    public function ingredientRemove( $mealId, $ingredientId )
     {
-    
-    }
-    
-    public function ingredientAmountDecrease( $ingredientId )
-    {
-    
-    }
-    
-    public function ingredientAdd( $ingredientId )
-    {
-    
-    }
-    
-    public function ingredientRemove( $ingredientId )
-    {
-    
+    	$order = $this->Session->read('order');
+    	unset( $order[ $mealId ][ $ingredientId ] );
+    	$this->Session->write('order', $order);
+    	return $this->redirect(array('action' => 'selectIngredients'));    	
     }
     
     public function orderConfirm()
