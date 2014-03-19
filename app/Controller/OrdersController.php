@@ -37,13 +37,17 @@ class OrdersController extends AppController {
 			foreach( $orderReqRes['MealComposition'] as $ingredient )
     		{
     			$order[ $orderReqRes['Meal']['id'] ][$ingredient['ingredient_id']] = $ingredient['ingredient_amount'];
-    		}    		
+    		}
+    		
+			$this->Session->write('order', $order);
+			
+			return $this->redirect(array('action' => 'selectIngredients'));
     	}
     }
     
     public function selectIngredients()
     {
-    
+    	
     }
     
     public function ingredientAmountIncrease( $ingredientId )
