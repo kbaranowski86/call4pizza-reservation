@@ -19,6 +19,63 @@ class OrdersController extends AppController {
 		}
     }
     
+    //first step of order creation - select the meal
+    public function addMeal( $mealId = null )
+    {
+    	if( $mealId == null )
+    	{
+    		// list meals to select one
+    		$meals = $this->Order->Meal->find('all');
+    		$this->set('meals', $meals);
+    	}
+    	else
+    	{
+    		// save selection and go to the ingredients selection
+    		$orderReqRes = $this->Order->Meal->findById( $mealId );
+    		$order = array();
+
+			foreach( $orderReqRes['MealComposition'] as $ingredient )
+    		{
+    			$order[ $orderReqRes['Meal']['id'] ][$ingredient['ingredient_id']] = $ingredient['ingredient_amount'];
+    		}    		
+    	}
+    }
+    
+    public function selectIngredients()
+    {
+    
+    }
+    
+    public function ingredientAmountIncrease( $ingredientId )
+    {
+    
+    }
+    
+    public function ingredientAmountDecrease( $ingredientId )
+    {
+    
+    }
+    
+    public function ingredientAdd( $ingredientId )
+    {
+    
+    }
+    
+    public function ingredientRemove( $ingredientId )
+    {
+    
+    }
+    
+    public function orderConfirm()
+    {
+    
+    }
+    
+    public function previewOrder()
+    {
+    
+    }
+    
     public function edit( $id = null )
     {
     	if ($this->request->is('post')) {
