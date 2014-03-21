@@ -32,6 +32,7 @@ class OrdersController extends AppController {
     	{
     		// save selection and go to the ingredients selection
     		$orderReqRes = $this->Order->Meal->findById( $mealId );
+    		
     		$order = array();
 
 			foreach( $orderReqRes['MealComposition'] as $ingredient )
@@ -48,7 +49,23 @@ class OrdersController extends AppController {
     public function selectIngredients()
     {
     	$order = $this->Session->read('order');
-    	$this->set( 'order', $order );
+    	$orderForView = array();
+    	
+    	// get meals details for view
+    	foreach( $order as $mealId => $ingredients )
+    	{
+    		$mealInfo = $this->Order->Meal->findById( $mealId );
+    		$orderForView[ $mealId ]['name'] = $mealInfo['Meal']['name'];
+    		
+    		foreach( $ingredients as $ingredientId => $ingredientAmount )
+    		{
+    			$ingredientInfo = $this->Order->Meal->MealComposition->Ingredient->findById( $ingredientId );
+    			$orderForView[ $mealId ]['ingredients'][$ingredientId]['name'] = $ingredientInfo['Ingredient']['name'];
+    			$orderForView[ $mealId ]['ingredients'][$ingredientId]['amount'] = $ingredientAmount;
+    		}
+    	}
+    	
+    	$this->set( 'order', $orderForView );
     }
     
     public function ingredientAmountIncrease( $mealId = null, $ingredientId = null )
