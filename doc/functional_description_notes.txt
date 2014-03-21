@@ -5,12 +5,12 @@ Po wybraniu posi³ku (meals), mo¿liwe jest uzupe³nienie go o sk³adniki (ingredien
 2. Tworzenie koszyka zamówienia.
 Koszyk zamówienia przechowywany jest w sesji w postaci json. Wybranie potrawy powoduje dodanie jej wraz ze sk³adnikami jako odpowiedniej struktury json np.
 
-meals {
-  5, {
+meals: {
+  5: {
     {3, 2},
     {2, 2}
   },
-  3, {
+  3: {
     {2, 2}
   }
 }
@@ -21,12 +21,12 @@ Dodawanie/usuwanie potraw/sk³adników odbywa siê z wykorzystaniem dedykowanych op
 Struktura zamówienia:
 
 order {
-  meal_1 {
+  meal_1: {
     { ingredient_1, amount },
     { ingredient_2, amount },
     ...
   },
-  meal_2
+  meal_2: {
     { ingredient_1, amount },
     { ingredient_2, amount },
     ...
