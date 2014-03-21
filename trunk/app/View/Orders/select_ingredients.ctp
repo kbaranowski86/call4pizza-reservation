@@ -10,4 +10,12 @@
 			</li>
 		<?php endforeach?>
 	</ul>
+	<br />
+	Dodaj sk³adnik:
+	<ul>
+	<?php foreach( $ingredients as $ingredient ):?>
+		<li><?php echo $this->Html->link( $ingredient['Ingredient']['name'], array('action'=> 'ingredientAdd', $mealId, $ingredient['Ingredient']['id']) );?></li>
+	<?php endforeach?>
+	</ul>
+	<hr />
 <?php endforeach?>
