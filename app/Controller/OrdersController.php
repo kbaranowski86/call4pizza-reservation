@@ -50,6 +50,7 @@ class OrdersController extends AppController {
     {
     	$order = $this->Session->read('order');
     	$orderForView = array();
+    	$ingredientsForView = $this->Order->Meal->MealComposition->Ingredient->find( 'all' );
     	
     	// get meals details for view
     	foreach( $order as $mealId => $ingredients )
@@ -66,6 +67,7 @@ class OrdersController extends AppController {
     	}
     	
     	$this->set( 'order', $orderForView );
+    	$this->set( 'ingredients', $ingredientsForView );
     }
     
     public function ingredientAmountIncrease( $mealId = null, $ingredientId = null )
@@ -107,7 +109,13 @@ class OrdersController extends AppController {
     
     public function ingredientAdd( $mealId, $ingredientId )
     {
-    	
+    	$order = $this->Session->read('order');
+  		if( array_key_exists ( $ingredientId, $order[ $mealId ] ) == false )
+  		{
+	    	$order[ $mealId ][$ingredientId] = 1;
+	    	$this->Session->write('order', $order);
+	    }
+	    return $this->redirect(array('action' => 'selectIngredients'));
     }
     
     public function ingredientRemove( $mealId, $ingredientId )

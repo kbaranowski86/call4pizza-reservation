@@ -33,3 +33,5 @@ order {
   },
   ...
 }
+
+Do aktualnie wybranego posi³ku lista sk³adników mo¿liwych do dodania obejmuje tylko te, które nie s¹ dodane do posi³ku (ograniczenie po stronie kontrolera). W przysz³oœci konfigurowaæ bêdzie mo¿na listê sk³adników, które da siê dodaæ do danego posi³ku (w tym ich maksymalna iloœæ).
