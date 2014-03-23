@@ -29,11 +29,18 @@ class OrdersController extends AppController {
     		$this->set('meals', $meals);
     	}
     	else
-    	{
+    	{    		
     		// save selection and go to the ingredients selection
     		$orderReqRes = $this->Order->Meal->findById( $mealId );
     		
-    		$order[ $mealId ]  = array();
+    		if( $this->Session->check('order') )
+    		{
+    			$order = $this->Session->read('order');
+    		}
+    		else
+    		{
+    			$order[ $mealId ]  = array();
+    		}
 
 			foreach( $orderReqRes['MealComposition'] as $ingredient )
     		{
