@@ -20,7 +20,7 @@ class OrdersController extends AppController {
     }
     
     //first step of order creation - select the meal
-    public function addMeal( $mealId = null )
+    public function mealAdd( $mealId = null )
     {
     	if( $mealId == null )
     	{
@@ -49,12 +49,20 @@ class OrdersController extends AppController {
     		
 			$this->Session->write('order', $order);
 			
-			return $this->redirect(array('action' => 'selectIngredients'));
+			return $this->redirect(array('action' => 'ingredientsSelect'));
     	}
     }
     
+    public function mealRemove( $mealId = null )
+    {
+		$order = $this->Session->read('order');
+    	unset( $order[ $mealId ] );
+    	$this->Session->write('order', $order);
+    	return $this->redirect(array('action' => 'ingredientsSelect'));
+    }
+    
     // add ingredients for selected meals
-    public function selectIngredients()
+    public function ingredientsSelect()
     {
     	$order = $this->Session->read('order');
     	$orderForView = array();
@@ -82,14 +90,14 @@ class OrdersController extends AppController {
     {
     	if( $mealId == null || $ingredientId == null )
     	{
-    		return $this->redirect(array('action' => 'selectIngredients'));
+    		return $this->redirect(array('action' => 'ingredientsSelect'));
 		}
 		else
 		{
 	    	$order = $this->Session->read('order');
 	    	$order[ $mealId ][ $ingredientId ] += 1;
 	    	$this->Session->write('order', $order);
-	    	return $this->redirect(array('action' => 'selectIngredients'));
+	    	return $this->redirect(array('action' => 'ingredientsSelect'));
 		}
     }
     
@@ -98,7 +106,7 @@ class OrdersController extends AppController {
     	$order = $this->Session->read('order');
     	if( $mealId == null || $ingredientId == null || $order[ $mealId ][ $ingredientId ] == 0 )
     	{
-    		return $this->redirect(array('action' => 'selectIngredients'));
+    		return $this->redirect(array('action' => 'ingredientsSelect'));
 		}
 		else
 		{
@@ -111,7 +119,7 @@ class OrdersController extends AppController {
 		    	$order[ $mealId ][ $ingredientId ] -= 1;	
 		    }
 		    $this->Session->write('order', $order);
-	    	return $this->redirect(array('action' => 'selectIngredients'));
+	    	return $this->redirect(array('action' => 'ingredientsSelect'));
 		}		
     }
     
@@ -123,7 +131,7 @@ class OrdersController extends AppController {
 	    	$order[ $mealId ][$ingredientId] = 1;
 	    	$this->Session->write('order', $order);
 	    }
-	    return $this->redirect(array('action' => 'selectIngredients'));
+	    return $this->redirect(array('action' => 'ingredientsSelect'));
     }
     
     public function ingredientRemove( $mealId, $ingredientId )
@@ -131,7 +139,7 @@ class OrdersController extends AppController {
     	$order = $this->Session->read('order');
     	unset( $order[ $mealId ][ $ingredientId ] );
     	$this->Session->write('order', $order);
-    	return $this->redirect(array('action' => 'selectIngredients'));    	
+    	return $this->redirect(array('action' => 'ingredientsSelect'));    	
     }
     
     public function orderConfirm()

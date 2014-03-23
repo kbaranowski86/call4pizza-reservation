@@ -1,5 +1,5 @@
 <?php foreach( $order as $mealId => $mealDetails ):?>
-	Nazwa dania: <?php echo $mealDetails['name']?><br />
+	Nazwa dania: <?php echo $mealDetails['name']?> [<?php echo $this->Html->link( "x", array('action'=> 'mealRemove', $mealId));?>]<br />
 	Składniki/dodatki:
 	<ul>
 		<?php foreach( $mealDetails['ingredients'] as $ingredientId => $ingredientDetails ):?>
