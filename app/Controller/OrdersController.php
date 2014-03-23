@@ -33,11 +33,11 @@ class OrdersController extends AppController {
     		// save selection and go to the ingredients selection
     		$orderReqRes = $this->Order->Meal->findById( $mealId );
     		
-    		$order = array();
+    		$order[ $mealId ]  = array();
 
 			foreach( $orderReqRes['MealComposition'] as $ingredient )
     		{
-    			$order[ $orderReqRes['Meal']['id'] ][$ingredient['ingredient_id']] = $ingredient['ingredient_amount'];
+    			$order[ $mealId ][$ingredient['ingredient_id']] = $ingredient['ingredient_amount'];
     		}
     		
 			$this->Session->write('order', $order);
@@ -46,6 +46,7 @@ class OrdersController extends AppController {
     	}
     }
     
+    // add ingredients for selected meals
     public function selectIngredients()
     {
     	$order = $this->Session->read('order');
