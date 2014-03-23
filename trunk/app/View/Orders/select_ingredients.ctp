@@ -1,9 +1,9 @@
 <?php foreach( $order as $mealId => $mealDetails ):?>
 	Nazwa dania: <?php echo $mealDetails['name']?><br />
-	Sk≥adniki:
+	Sk≈Çadniki/dodatki:
 	<ul>
 		<?php foreach( $mealDetails['ingredients'] as $ingredientId => $ingredientDetails ):?>
-			<li>Sk≥adnik <?php echo $ingredientDetails['name']?> w iloúci <?php echo $ingredientDetails['amount']?>
+			<li><?php echo $ingredientDetails['name']?> w ilo≈õci <?php echo $ingredientDetails['amount']?>
 				[<?php echo $this->Html->link( "+", array('action'=> 'ingredientAmountIncrease', $mealId, $ingredientId));?>] 
 				[<?php echo $this->Html->link( "-", array('action'=> 'ingredientAmountDecrease', $mealId, $ingredientId));?>] 
 				[<?php echo $this->Html->link( "x", array('action'=> 'ingredientRemove', $mealId, $ingredientId));?>]
@@ -11,10 +11,12 @@
 		<?php endforeach?>
 	</ul>
 	<br />
-	Dodaj sk≥adnik:
+	Dodaj sk≈Çadnik:
 	<ul>
 	<?php foreach( $ingredients as $ingredient ):?>
-		<li><?php echo $this->Html->link( $ingredient['Ingredient']['name'], array('action'=> 'ingredientAdd', $mealId, $ingredient['Ingredient']['id']) );?></li>
+			<?php if( array_key_exists( $ingredient['Ingredient']['id'], $mealDetails['ingredients'] ) == false ):?>
+				<li><?php echo $this->Html->link( $ingredient['Ingredient']['name'], array('action'=> 'ingredientAdd', $mealId, $ingredient['Ingredient']['id']) ); ?></li>
+			<?php endif?>
 	<?php endforeach?>
 	</ul>
 	<hr />
