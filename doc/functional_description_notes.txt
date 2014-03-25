@@ -3,35 +3,42 @@ Z tabeli meals listowane s¹ posi³ki. Posi³ek mo¿e byæ ju¿ powi¹zany ze sk³adnika
 Po wybraniu posi³ku (meals), mo¿liwe jest uzupe³nienie go o sk³adniki (ingredients) bez wzglêdu na to czy ju¿ jakieœ posiada czy nie oraz odjêcie sk³adników. Gdy posi³ek wraz z okreœlonymi sk³adnikami o okreœlonej ich iloœci ju¿ istnieje w zespole tabel meals - ingredients_meals - ingredients, wówczas do zamówienia dodawane jest id o wartoœci kolumny meal_origin_id takiego posi³ku. Gdy wybrany zespó³ posi³ek - sk³adniki nie istnieje w bazie, wówczas po potwierdzeniu zamówienia jest on dodawany do bazy z nowym id oraz wartoœci¹ meal_origin_id równ¹ id posi³ku modyfikowanego. Posi³ki wprowadzone do systemu po raz pierwszy (przez administratora czy osobê uprawnion¹ do tworzenia menu) maj¹ wartoœæ kolumny meal_origin_id równ¹ id posi³ku.
 
 2. Tworzenie koszyka zamówienia.
-Koszyk zamówienia przechowywany jest w sesji w postaci json. Wybranie potrawy powoduje dodanie jej wraz ze sk³adnikami jako odpowiedniej struktury json np.
+Koszyk zamówienia przechowywany jest w sesji w postaci json. Wybranie potrawy powoduje dodanie jej wraz ze sk³adnikami jako odpowiedniej struktury json/tablicy asocjacyjnej.
 
-meals: {
-  5: {
-    {3, 2},
-    {2, 2}
-  },
-  3: {
-    {2, 2}
-  }
-}
-
-co oznacza, i¿ do zamówienia dodano potrawê o id=5 ze sk³adnikami o id=3 w iloœci 2 i o id=2 w iloœci 2 oraz potrawê o id=3 ze sk³adnikiem o id=2 w iloœci 2. 
-Dodawanie/usuwanie potraw/sk³adników odbywa siê z wykorzystaniem dedykowanych operacji w kontrolerze order.
-
-Struktura zamówienia:
-
-order {
-  meal_1: {
-    { ingredient_1, amount },
-    { ingredient_2, amount },
-    ...
-  },
-  meal_2: {
-    { ingredient_1, amount },
-    { ingredient_2, amount },
-    ...
+order = [
+  {
+    id: liczba,
+    ordinal: liczba,
+    ingredients: {
+    [
+       {liczba, liczba},
+       ...
+    ]
   },
   ...
-}
+]
+
+np.
+
+order = [
+  id: 5,
+  ordinal: 1, 
+  ingredients: {
+  [
+    {3, 2},
+    {2, 2}
+  ]
+  },
+  id: 3,
+  ordinal: 2,
+  ingredients: {
+  [
+    {2, 2}
+  ]
+  }
+]
+
+co oznacza, i¿ do zamówienia dodano potrawê o id=5 z liczb¹ porz¹dkow¹ ordinal=1 ze sk³adnikami o id=3 w iloœci 2 i o id=2 w iloœci 2 oraz potrawê o id=3 z liczb¹ porz¹dkow¹ ordinal=2 ze sk³adnikiem o id=2 w iloœci 2. 
+Dodawanie/usuwanie potraw/sk³adników odbywa siê z wykorzystaniem dedykowanych operacji w kontrolerze order. Ponowne dodanie tej samej potrawy powoduje i¿ ma ona w sesji to samo id, ale inn¹ liczbê porz¹dkow¹.
 
 Do aktualnie wybranego posi³ku lista sk³adników mo¿liwych do dodania obejmuje tylko te, które nie s¹ dodane do posi³ku (ograniczenie po stronie kontrolera). W przysz³oœci konfigurowaæ bêdzie mo¿na listê sk³adników, które da siê dodaæ do danego posi³ku (w tym ich maksymalna iloœæ).
