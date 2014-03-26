@@ -7,10 +7,10 @@ Koszyk zamówienia przechowywany jest w sesji w postaci json. Wybranie potrawy po
 
 order = [
   {
-    id: liczba,
-    ordinal: liczba,
-    count: liczba,
-    ingredients: {
+    "id": liczba,
+    "ordinal": liczba,
+    "count": liczba,
+    "ingredients":
     [
        {liczba, liczba},
        ...
@@ -22,22 +22,24 @@ order = [
 np.
 
 order = [
-  id: 5,
-  ordinal: 1,
-  count: 1,
-  ingredients: {
-  [
-    {3, 2},
-    {2, 2}
-  ]
+  {
+    "id": 5,
+    "ordinal": 1,
+    "count": 1,
+    "ingredients":
+    [
+      {3, 2},
+      {2, 2}
+    ]
   },
-  id: 3,
-  ordinal: 2,
-  count: 2,
-  ingredients: {
-  [
-    {2, 2}
-  ]
+  {
+    "id": 3,
+    "ordinal": 2,
+    "count": 2,
+    "ingredients": {
+    [
+      {2, 2}
+    ]
   }
 ]
 
