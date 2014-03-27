@@ -11,8 +11,6 @@ class Order extends AppModel {
     );
     
     public $belongsTo = 'User';
-    
-    public $hasOne = 'User';
     public $hasMany = 'MealsOrder';
 }
 ?>
