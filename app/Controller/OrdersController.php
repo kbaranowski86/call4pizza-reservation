@@ -67,10 +67,14 @@ class OrdersController extends AppController {
     	}
     }
     
-    public function mealRemove( $mealId = null )
+    public function mealAmountIncrease( $mealOrdinal )
+    {
+    }
+    
+    public function mealRemove( $mealOrdinal = null )
     {
 		$order = $this->Session->read('order');
-    	unset( $order[ $mealId ] );
+    	unset( $order[ $mealOrdinal ] );
     	$this->Session->write('order', $order);
     	return $this->redirect(array('action' => 'ingredientsSelect'));
     }
