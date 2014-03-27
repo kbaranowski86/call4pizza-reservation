@@ -8,6 +8,6 @@ class Meal extends AppModel
             )
     );
     
-    public $hasMany = 'MealComposition';
+    public $hasMany = array('MealComposition', 'MealsOrder');
 }
 ?>

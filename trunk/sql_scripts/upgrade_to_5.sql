@@ -1,0 +1,1 @@
+ALTER TABLE  `meals_orders` ADD  `amount` INT NOT NULL DEFAULT  '1';
