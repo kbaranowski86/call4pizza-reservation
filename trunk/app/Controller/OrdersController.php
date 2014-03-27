@@ -39,12 +39,26 @@ class OrdersController extends AppController {
     		}
     		else
     		{
-    			$order[ $mealId ]  = array();
+    			$order  = array();
     		}
+    		
+    		$ordinal = 0;
+    		while( $ordinal < 100 )
+    		{
+    			if( array_key_exists ( $ordinal, $order ) == false )
+    			{
+    				break;
+    			}
+    			$ordinal++;
+    		}
+    		
+    		$order[$ordinal] = array();
+    		$order[$ordinal]['count'] = 0;
+    		$order[$ordinal]['id'] = $mealId;
 
 			foreach( $orderReqRes['MealComposition'] as $ingredient )
     		{
-    			$order[ $mealId ][$ingredient['ingredient_id']] = $ingredient['ingredient_amount'];
+    			$order[$ordinal]['ingredients'][$ingredient['ingredient_id']] = $ingredient['ingredient_amount'];
     		}
     		
 			$this->Session->write('order', $order);
@@ -69,16 +83,16 @@ class OrdersController extends AppController {
     	$ingredientsForView = $this->Order->Meal->MealComposition->Ingredient->find( 'all' );
     	
     	// get meals details for view
-    	foreach( $order as $mealId => $ingredients )
+    	foreach( $order as $ordinal => $meal )
     	{
-    		$mealInfo = $this->Order->Meal->findById( $mealId );
-    		$orderForView[ $mealId ]['name'] = $mealInfo['Meal']['name'];
+    		$mealInfo = $this->Order->Meal->findById( $meal['id'] );
+    		$orderForView[ $ordinal ]['name'] = $mealInfo['Meal']['name'];
     		
-    		foreach( $ingredients as $ingredientId => $ingredientAmount )
+    		foreach( $meal['ingredients'] as $ingredientId => $ingredientAmount )
     		{
     			$ingredientInfo = $this->Order->Meal->MealComposition->Ingredient->findById( $ingredientId );
-    			$orderForView[ $mealId ]['ingredients'][$ingredientId]['name'] = $ingredientInfo['Ingredient']['name'];
-    			$orderForView[ $mealId ]['ingredients'][$ingredientId]['amount'] = $ingredientAmount;
+    			$orderForView[ $ordinal ]['ingredients'][$ingredientId]['name'] = $ingredientInfo['Ingredient']['name'];
+    			$orderForView[ $ordinal ]['ingredients'][$ingredientId]['amount'] = $ingredientAmount;
     		}
     	}
     	
@@ -86,58 +100,58 @@ class OrdersController extends AppController {
     	$this->set( 'ingredients', $ingredientsForView );
     }
     
-    public function ingredientAmountIncrease( $mealId = null, $ingredientId = null )
+    public function ingredientAmountIncrease( $mealOrdinal = null, $ingredientId = null )
     {
-    	if( $mealId == null || $ingredientId == null )
+    	if( $mealOrdinal == null || $ingredientId == null )
     	{
     		return $this->redirect(array('action' => 'ingredientsSelect'));
 		}
 		else
 		{
 	    	$order = $this->Session->read('order');
-	    	$order[ $mealId ][ $ingredientId ] += 1;
+	    	$order[ $mealOrdinal ]['ingredients'][ $ingredientId ] += 1;
 	    	$this->Session->write('order', $order);
 	    	return $this->redirect(array('action' => 'ingredientsSelect'));
 		}
     }
     
-    public function ingredientAmountDecrease( $mealId, $ingredientId )
+    public function ingredientAmountDecrease( $mealOrdinal, $ingredientId )
     {
     	$order = $this->Session->read('order');
-    	if( $mealId == null || $ingredientId == null || $order[ $mealId ][ $ingredientId ] == 0 )
+    	if( $mealOrdinal == null || $ingredientId == null || $order[ $mealOrdinal ]['ingredients'][ $ingredientId ] == 0 )
     	{
     		return $this->redirect(array('action' => 'ingredientsSelect'));
 		}
 		else
 		{
-			if( $order[ $mealId ][ $ingredientId ] == 1 )
+			if( $order[ $mealOrdinal ]['ingredients'][ $ingredientId ] == 1 )
 			{
-				unset( $order[ $mealId ][ $ingredientId ] );
+				unset( $order[ $mealOrdinal ]['ingredients'][ $ingredientId ] );
 			}
 			else
 			{
-		    	$order[ $mealId ][ $ingredientId ] -= 1;	
+		    	$order[ $mealOrdinal ]['ingredients'][ $ingredientId ] -= 1;	
 		    }
 		    $this->Session->write('order', $order);
 	    	return $this->redirect(array('action' => 'ingredientsSelect'));
 		}		
     }
     
-    public function ingredientAdd( $mealId, $ingredientId )
+    public function ingredientAdd( $mealOrdinal, $ingredientId )
     {
     	$order = $this->Session->read('order');
-  		if( array_key_exists ( $ingredientId, $order[ $mealId ] ) == false )
+  		if( array_key_exists ( $ingredientId, $order[ $mealOrdinal ]['ingredients'] ) == false )
   		{
-	    	$order[ $mealId ][$ingredientId] = 1;
+	    	$order[ $mealOrdinal ]['ingredients'][$ingredientId] = 1;
 	    	$this->Session->write('order', $order);
 	    }
 	    return $this->redirect(array('action' => 'ingredientsSelect'));
     }
     
-    public function ingredientRemove( $mealId, $ingredientId )
+    public function ingredientRemove( $mealOrdinal, $ingredientId )
     {
     	$order = $this->Session->read('order');
-    	unset( $order[ $mealId ][ $ingredientId ] );
+    	unset( $order[ $mealOrdinal ]['ingredients'][ $ingredientId ] );
     	$this->Session->write('order', $order);
     	return $this->redirect(array('action' => 'ingredientsSelect'));    	
     }
