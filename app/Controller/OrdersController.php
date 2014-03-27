@@ -53,7 +53,7 @@ class OrdersController extends AppController {
     		}
     		
     		$order[$ordinal] = array();
-    		$order[$ordinal]['count'] = 0;
+    		$order[$ordinal]['amount'] = 1;
     		$order[$ordinal]['id'] = $mealId;
 
 			foreach( $orderReqRes['MealComposition'] as $ingredient )
@@ -67,8 +67,41 @@ class OrdersController extends AppController {
     	}
     }
     
-    public function mealAmountIncrease( $mealOrdinal )
+    public function mealAmountIncrease( $mealOrdinal = null )
     {
+    	if( $mealOrdinal == null )
+    	{
+    		return $this->redirect(array('action' => 'ingredientsSelect'));
+		}
+		else
+		{
+			$order = $this->Session->read('order');
+	    	$order[ $mealOrdinal ]['amount'] += 1;
+	    	$this->Session->write('order', $order);
+	    	return $this->redirect(array('action' => 'ingredientsSelect'));
+	    }
+    }
+    
+    public function mealAmountDecrease( $mealOrdinal = null )
+    {
+    	$order = $this->Session->read('order');
+    	if( $mealOrdinal == null || $order[ $mealOrdinal ]['amount'] == 0 )
+    	{
+    		return $this->redirect(array('action' => 'ingredientsSelect'));
+		}
+		else
+		{
+			if( $order[ $mealOrdinal ]['amount'] == 1 )
+			{
+				unset( $order[ $mealOrdinal ] );
+			}
+			else
+			{
+		    	$order[ $mealOrdinal ]['amount'] -= 1;	
+		    }
+		    $this->Session->write('order', $order);
+	    	return $this->redirect(array('action' => 'ingredientsSelect'));
+		}
     }
     
     public function mealRemove( $mealOrdinal = null )
@@ -91,6 +124,7 @@ class OrdersController extends AppController {
     	{
     		$mealInfo = $this->Order->Meal->findById( $meal['id'] );
     		$orderForView[ $ordinal ]['name'] = $mealInfo['Meal']['name'];
+    		$orderForView[ $ordinal ]['amount'] = $meal['amount'];
     		
     		foreach( $meal['ingredients'] as $ingredientId => $ingredientAmount )
     		{

@@ -8,7 +8,7 @@ Koszyk zamówienia przechowywany jest w sesji w postaci json. Wybranie potrawy po
 order = [
   {
     "id": liczba,
-    "count": liczba,
+    "amount": liczba,
     "ingredients":
     [
        {liczba, liczba},
@@ -23,7 +23,7 @@ np.
 order = [
   {
     "id": 5,
-    "count": 1,
+    "amount": 1,
     "ingredients":
     [
       {3, 2},
@@ -32,7 +32,7 @@ order = [
   },
   {
     "id": 3,
-    "count": 2,
+    "amount": 2,
     "ingredients": {
     [
       {2, 2}
@@ -40,7 +40,7 @@ order = [
   }
 ]
 
-co oznacza, i¿ do zamówienia dodano potrawê o id=5, w liczbie sztuk count=2, ze sk³adnikami o id=3 w iloœci 2 i o id=2 w iloœci 2 oraz potrawê o id=3, w liczbie sztuk=1, ze sk³adnikiem o id=2 w iloœci 2. 
+co oznacza, i¿ do zamówienia dodano potrawê o id=5, w liczbie sztuk amount=1, ze sk³adnikami o id=3 w iloœci 2 i o id=2 w iloœci 2 oraz potrawê o id=3, w liczbie sztuk amount=2, ze sk³adnikiem o id=2 w iloœci 2. 
 Dodawanie/usuwanie potraw/sk³adników odbywa siê z wykorzystaniem dedykowanych operacji w kontrolerze order. Ponowne dodanie tej samej potrawy powoduje i¿ ma ona w sesji to samo id, ale inn¹ liczbê porz¹dkow¹.
 
 Do aktualnie wybranego posi³ku lista sk³adników mo¿liwych do dodania obejmuje tylko te, które nie s¹ dodane do posi³ku (ograniczenie po stronie kontrolera). W przysz³oœci konfigurowaæ bêdzie mo¿na listê sk³adników, które da siê dodaæ do danego posi³ku (w tym ich maksymalna iloœæ).
