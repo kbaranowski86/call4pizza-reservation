@@ -92,10 +92,10 @@ CREATE TABLE IF NOT EXISTS `orders` (
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `user`
+-- Struktura tabeli dla tabeli `users`
 --
 
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `login` varchar(50) COLLATE utf8_polish_ci NOT NULL,
   `password` varchar(20) COLLATE utf8_polish_ci NOT NULL,
